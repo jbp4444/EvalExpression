@@ -1,0 +1,13 @@
+settings = {
+  orientation = {
+    default = "landscapeRight"
+  },
+  android = {
+    versionCode = "11",
+    usesPermissions = {
+            "android.permission.INTERNET",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+    },
+  },
+}
+

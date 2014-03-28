@@ -136,6 +136,7 @@ function evalMath( text )
 	while( i ~= nil ) do
 		dprint( 15, "found () at "..i..","..j.."["..a.."]" )
 		local val = evalMath( a )
+		dprint( 17, "  val = "..val )
 		output = output:sub(1,i-1) .. val .. output:sub(j+1)
 
 		i, j, a = string.find( output, "%((.-)%)" )
@@ -155,7 +156,20 @@ function evalMath( text )
 		elseif( b == "%" ) then
 			val = mod( (a+0),(c+0) )	
 		end
+		print( "  val="..val )
+		
+		-- bug-fix from github-user: jmg19
+		local aux = output:sub(i-1,i-1)
+		if( (aux~="+") and (aux~="-") and (aux~="*")
+				and (aux~="/") and (aux~="") ) then
+			if( val >= 0 )then
+				val = "+" .. val
+			end
+		end
+		print( "  val2="..val )
+		
 		output = output:sub(1,i-1) .. val .. output:sub(j+1)
+		dprint( 17, "output ["..output.."]" )
 
 		i, j, a,b,c = string.find( output, "(%-*[0-9%.]+)([%*%/%%])(%-*[0-9%.]+)" )
 	end
@@ -237,7 +251,9 @@ end
 -- evalString will swap param-key-strings for param-values in text
 -- that gives an all-numeric string which it sends to evalMath
 function evalString( text, params )
-	local expr = text:rep(1)
+	-- local expr = text:rep(1)
+	-- remove spaces and copy the text
+	local expr = string.gsub( text, "%s+", "" )
 	dprint( 15, "string-eval ["..expr.."]" )
 
 	local i, j, a
