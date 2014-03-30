@@ -2,7 +2,7 @@
 
 require( "EvalExpression" )
 
-debuglevel = 1
+debuglevel = 20
 function dprint( lvl, text )
 	if( lvl <= debuglevel ) then
 		print( text )
@@ -33,6 +33,9 @@ runTest( "(1.1+2.2)*3.3", 10.89 )
 runTest( "1.1*(2.2+3.3)", 6.05 )
 runTest( "-2*3", -6 )
 runTest( "2*-3", -6 )
+
+print( "from bug reports from github..." )
+runTest( "(42 / 100) - 47 / (30 - 130)", 0.89 )
 
 -- use params list
 params = {
